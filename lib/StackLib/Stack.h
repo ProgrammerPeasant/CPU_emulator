@@ -79,6 +79,7 @@ public:
         }
         --size;
         --topIndex;
+        stackArray[topIndex + 1].~T();
     }
 
     T top() const {
