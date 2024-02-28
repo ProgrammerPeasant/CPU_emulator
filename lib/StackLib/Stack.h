@@ -37,6 +37,7 @@ public:
         other.stackArray = nullptr;
         other.capacity = 0;
         other.topIndex = -1;
+        other.size = 0;
     }
 
     // Move Assignment Operator
@@ -50,6 +51,7 @@ public:
             other.stackArray = nullptr;
             other.capacity = 0;
             other.topIndex = -1;
+            other.size = 0;
         }
         return *this;
     }
@@ -74,8 +76,7 @@ public:
 
     void pop() {
         if (topIndex == -1) {
-            std::cerr << "Error: Stack is empty. Cannot pop.\n";
-            return;
+            throw std::runtime_error("Error: Stack is empty. Cannot pop.\n");
         }
         --size;
         --topIndex;
