@@ -4,24 +4,26 @@
 
 template < class T > class Stack {
 public:
-    Stack() : capacity(10), topIndex(-1) {
+    int size;
+    Stack() : capacity(10), topIndex(-1), size(0) {
         stackArray = new T[capacity];
     }
 
     // Copy Constructor
-    Stack(const Stack& other) : capacity(other.capacity), topIndex(other.topIndex) {
+    Stack(const Stack& other) : capacity(other.capacity), topIndex(other.topIndex), size(other.size) {
         stackArray = new T[capacity];
         for (int i = 0; i <= topIndex; ++i) {
             stackArray[i] = other.stackArray[i];
         }
     }
 
-    // Copy Assignment Operator
+    // Copy Assignment Operatorс
     Stack& operator=(const Stack& other) {
         if (this != &other) {
             delete[] stackArray;
             capacity = other.capacity;
             topIndex = other.topIndex;
+            size = other.size;
             stackArray = new T[capacity];
             for (int i = 0; i <= topIndex; ++i) {
                 stackArray[i] = other.stackArray[i];
@@ -31,7 +33,7 @@ public:
     }
 
     // Move Constructor
-    Stack(Stack&& other) noexcept : stackArray(other.stackArray), capacity(other.capacity), topIndex(other.topIndex) {
+    Stack(Stack&& other) noexcept : stackArray(other.stackArray), capacity(other.capacity), topIndex(other.topIndex), size(other.size) {
         other.stackArray = nullptr;
         other.capacity = 0;
         other.topIndex = -1;
@@ -44,6 +46,7 @@ public:
             stackArray = other.stackArray;
             capacity = other.capacity;
             topIndex = other.topIndex;
+            size = other.size;
             other.stackArray = nullptr;
             other.capacity = 0;
             other.topIndex = -1;
@@ -65,6 +68,7 @@ public:
             stackArray = newStackArray;
             capacity *= 2;
         }
+        size++;
         stackArray[++topIndex] = data;
     }
 
@@ -73,13 +77,13 @@ public:
             std::cerr << "Error: Stack is empty. Cannot pop.\n";
             return;
         }
+        --size;
         --topIndex;
     }
 
     T top() const {
         if (topIndex == -1) {
-            std::cerr << "Error: Stack is empty. Cannot get top element.\n";
-            return T();
+            throw std::runtime_error("Stack is empty. Cannot get top element.\n");
         }
         return stackArray[topIndex];
     }

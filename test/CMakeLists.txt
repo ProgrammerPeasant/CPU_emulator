@@ -1,12 +1,7 @@
-add_subdirectory(googletest-main)
-include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+add_executable(Test StackTesting.cpp)
 
-# adding the Google_Tests_run target
-add_executable(Google_Tests_run StackTesting.cpp)
-# linking Google_Tests_run with DateConverter_lib which will be tested
+target_link_libraries(Test PRIVATE gtest_main StackLib)
 
-target_link_libraries(Google_Tests_run PRIVATE StackLibrary)
-
-target_link_libraries(Google_Tests_run PRIVATE gtest gtest_main)
-
-target_include_directories(Google_Tests_run PRIVATE "${PROJECT_SOURCE_DIR}/StackLib")
+target_include_directories(Test PRIVATE
+        "${PROJECT_SOURCE_DIR}/lib/StackLib"
+)
