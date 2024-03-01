@@ -4,13 +4,13 @@
 
 template < class T > class Stack {
 public:
-    int size;
-    Stack() noexcept: capacity(10), topIndex(-1), size(0) {
+    int sizeStack;
+    Stack() noexcept: capacity(10), topIndex(-1), sizeStack(0) {
         stackArray = new T[capacity];
     }
 
     // Copy Constructor
-    Stack(const Stack& other) : capacity(other.capacity), topIndex(other.topIndex), size(other.size) {
+    Stack(const Stack& other) : capacity(other.capacity), topIndex(other.topIndex), sizeStack(other.sizeStack) {
         stackArray = new T[capacity];
         for (int i = 0; i <= topIndex; ++i) {
             stackArray[i] = other.stackArray[i];
@@ -23,7 +23,7 @@ public:
             delete[] stackArray;
             capacity = other.capacity;
             topIndex = other.topIndex;
-            size = other.size;
+            sizeStack = other.sizeStack;
             stackArray = new T[capacity];
             for (int i = 0; i <= topIndex; ++i) {
                 stackArray[i] = other.stackArray[i];
@@ -33,11 +33,11 @@ public:
     }
 
     // Move Constructor
-    Stack(Stack&& other) noexcept : stackArray(other.stackArray), capacity(other.capacity), topIndex(other.topIndex), size(other.size) {
+    Stack(Stack&& other) noexcept : stackArray(other.stackArray), capacity(other.capacity), topIndex(other.topIndex), sizeStack(other.sizeStack) {
         other.stackArray = nullptr;
         other.capacity = 0;
         other.topIndex = -1;
-        other.size = 0;
+        other.sizeStack = 0;
     }
 
     // Move Assignment Operator
@@ -47,11 +47,11 @@ public:
             stackArray = other.stackArray;
             capacity = other.capacity;
             topIndex = other.topIndex;
-            size = other.size;
+            sizeStack = other.sizeStack;
             other.stackArray = nullptr;
             other.capacity = 0;
             other.topIndex = -1;
-            other.size = 0;
+            other.sizeStack = 0;
         }
         return *this;
     }
@@ -70,7 +70,7 @@ public:
             stackArray = newStackArray;
             capacity *= 2;
         }
-        size++;
+        sizeStack++;
         stackArray[++topIndex] = data;
     }
 
@@ -78,7 +78,7 @@ public:
         if (topIndex == -1) {
             throw std::runtime_error("Error: Stack is empty. Cannot pop.\n");
         }
-        --size;
+        --sizeStack;
         --topIndex;
         stackArray[topIndex + 1].~T();
     }
@@ -92,6 +92,10 @@ public:
 
     bool empty() const {
         return topIndex == -1;
+    }
+
+    int size() const {
+        return sizeStack;
     }
 
 private:

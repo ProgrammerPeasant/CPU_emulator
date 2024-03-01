@@ -1,10 +1,10 @@
-#include "stack.h"
+#include "Stack.h"
 #include "gtest/gtest.h"
 
 TEST(Stack, DefaultConstructor) {
     Stack<int> stack;
     EXPECT_EQ(stack.empty(), true);
-    EXPECT_EQ(stack.size, 0);
+    EXPECT_EQ(stack.size(), 0);
     EXPECT_THROW(stack.pop(), std::runtime_error);
     EXPECT_THROW(stack.top(), std::runtime_error);
 }
@@ -17,7 +17,69 @@ TEST(Stack, CopyConstructor) {
 
     Stack<int> stack2(stack1);
     EXPECT_EQ(stack2.empty(), false);
-    EXPECT_EQ(stack2.size, 3);
+    EXPECT_EQ(stack2.size(), 3);
+    EXPECT_EQ(stack2.top(), 3);
+}
+
+TEST(Stack, CopyAssignmentOperator) {
+    Stack<int> stack1;
+    stack1.push(1);
+    stack1.push(2);
+    stack1.push(3);
+
+    Stack<int> stack2;
+    Stack<int>* stack3 = &stack1;
+    Stack<int> stack4;
+    stack4.push(2);
+    stack4 = stack1;
+    stack2 = stack1;
+    EXPECT_EQ(stack4.top(), 3);
+    EXPECT_EQ(stack3->empty(), false);
+    EXPECT_EQ(stack2.empty(), false);
+    EXPECT_EQ(stack2.size(), 3);
+    EXPECT_EQ(stack2.top(), 3);
+}
+
+TEST(Stack, AssignmentOperator) {
+    Stack<int> stack1;
+    stack1.push(1);
+    stack1.push(2);
+    stack1.push(3);
+
+    Stack<int> stack2;
+    stack2 = stack1;
+
+    EXPECT_NE(&stack1, &stack2);
+    EXPECT_EQ(stack1.size(), stack2.size());
+    EXPECT_EQ(stack1.top(), stack2.top());
+}
+
+TEST(Stack, MoveConstructor) {
+    Stack<int> stack1;
+    stack1.push(1);
+    stack1.push(2);
+    stack1.push(3);
+
+    Stack<int> stack2(std::move(stack1));
+    EXPECT_EQ(stack1.empty(), true);
+    EXPECT_EQ(stack1.size(), 0);
+    EXPECT_EQ(stack2.empty(), false);
+    EXPECT_EQ(stack2.size(), 3);
+    EXPECT_EQ(stack2.top(), 3);
+}
+
+TEST(Stack, MoveAssignmentOperator) {
+    Stack<int> stack1;
+    stack1.push(1);
+    stack1.push(2);
+    stack1.push(3);
+
+    Stack<int> stack2;
+    stack2 = std::move(stack1);
+    EXPECT_EQ(stack1.empty(), true);
+    EXPECT_EQ(stack1.size(), 0);
+    EXPECT_EQ(stack2.empty(), false);
+    EXPECT_EQ(stack2.size(), 3);
     EXPECT_EQ(stack2.top(), 3);
 }
 
@@ -51,48 +113,6 @@ TEST(StackTest, String) {
     EXPECT_TRUE(stack.empty());
 }
 
-TEST(Stack, CopyAssignmentOperator) {
-    Stack<int> stack1;
-    stack1.push(1);
-    stack1.push(2);
-    stack1.push(3);
-
-    Stack<int> stack2;
-    stack2 = stack1;
-    EXPECT_EQ(stack2.empty(), false);
-    EXPECT_EQ(stack2.size, 3);
-    EXPECT_EQ(stack2.top(), 3);
-}
-
-TEST(Stack, MoveConstructor) {
-    Stack<int> stack1;
-    stack1.push(1);
-    stack1.push(2);
-    stack1.push(3);
-
-    Stack<int> stack2(std::move(stack1));
-    EXPECT_EQ(stack1.empty(), true);
-    EXPECT_EQ(stack1.size, 0);
-    EXPECT_EQ(stack2.empty(), false);
-    EXPECT_EQ(stack2.size, 3);
-    EXPECT_EQ(stack2.top(), 3);
-}
-
-TEST(Stack, MoveAssignmentOperator) {
-    Stack<int> stack1;
-    stack1.push(1);
-    stack1.push(2);
-    stack1.push(3);
-
-    Stack<int> stack2;
-    stack2 = std::move(stack1);
-    EXPECT_EQ(stack1.empty(), true);
-    EXPECT_EQ(stack1.size, 0);
-    EXPECT_EQ(stack2.empty(), false);
-    EXPECT_EQ(stack2.size, 3);
-    EXPECT_EQ(stack2.top(), 3);
-}
-
 TEST(Stack, Destructor) {
     auto *stack = new Stack<int>();
     stack->push(1);
@@ -103,11 +123,9 @@ TEST(Stack, Destructor) {
 
 TEST(Stack, Push) {
     Stack<int> stack;
-    stack.push(1);
-    stack.push(2);
-    stack.push(3);
+    for(int i = 0; i < 12; i++) stack.push(3);
     EXPECT_EQ(stack.empty(), false);
-    EXPECT_EQ(stack.size, 3);
+    EXPECT_EQ(stack.size(), 12);
     EXPECT_EQ(stack.top(), 3);
 }
 
@@ -118,7 +136,7 @@ TEST(Stack, Pop) {
     stack.push(3);
     stack.pop();
     EXPECT_EQ(stack.empty(), false);
-    EXPECT_EQ(stack.size, 2);
+    EXPECT_EQ(stack.size(), 2);
     EXPECT_EQ(stack.top(), 2);
 }
 
