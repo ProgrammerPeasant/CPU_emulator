@@ -5,7 +5,7 @@
 template < class T > class Stack {
 public:
     int size;
-    Stack() : capacity(10), topIndex(-1), size(0) {
+    Stack() noexcept: capacity(10), topIndex(-1), size(0) {
         stackArray = new T[capacity];
     }
 
@@ -17,7 +17,7 @@ public:
         }
     }
 
-    // Copy Assignment Operatorс
+    // Copy Assignment Operator
     Stack& operator=(const Stack& other) {
         if (this != &other) {
             delete[] stackArray;
@@ -56,7 +56,7 @@ public:
         return *this;
     }
 
-    ~Stack() {
+    ~Stack() noexcept{
         delete[] stackArray;
     }
 

@@ -17,6 +17,35 @@ int main() {
     stack.push(4);
     stack.push(5);
 
+    Stack<int> intStack;
+    intStack.push(1);
+    intStack.push(2);
+    intStack.push(3);
+
+    Stack<double> doubleStack;
+    doubleStack.push(3.14);
+    doubleStack.push(2.71);
+    doubleStack.push(1.618);
+
+    Stack<std::string> stringStack;
+    stringStack.push("hello");
+    stringStack.push("world");
+    stringStack.push("!");
+
+    std::cout << "Contents of the stack: ";
+    while (!stringStack.empty()) {
+        std::cout << stringStack.top() << " ";
+        stringStack.pop();
+    }
+    std::cout << std::endl;
+
+    std::cout << "Contents of the stack: ";
+    while (!stringStack.empty()) {
+        std::cout << stringStack.top() << " ";
+        stringStack.pop();
+    }
+    std::cout << std::endl;
+
     std::cout << "Contents of the stack: ";
     while (!stack.empty()) {
         std::cout << stack.top() << " ";
