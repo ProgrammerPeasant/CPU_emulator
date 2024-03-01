@@ -6,6 +6,7 @@ TEST(Stack, DefaultConstructor) {
     EXPECT_EQ(stack.empty(), true);
     EXPECT_EQ(stack.size, 0);
     EXPECT_THROW(stack.pop(), std::runtime_error);
+    EXPECT_THROW(stack.top(), std::runtime_error);
 }
 
 TEST(Stack, CopyConstructor) {
