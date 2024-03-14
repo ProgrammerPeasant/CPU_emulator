@@ -8,7 +8,7 @@ set(CMAKE_CXX_FLAGS --coverage)
 
 add_subdirectory("lib")
 add_subdirectory("src")
-add_subdirectory("test")
+add_subdirectory("lib/StackLib/test")
 
 enable_testing()
 

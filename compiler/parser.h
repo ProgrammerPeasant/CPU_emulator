@@ -1,0 +1,6 @@
+#ifndef EMULATOR_PARSER_H
+#define EMULATOR_PARSER_H
+
+
+
+#endif //EMULATOR_PARSER_H
